@@ -5,7 +5,7 @@ requirements:
   DockerRequirement:
     dockerPull: "l7g-ml/python-ml"
   ResourceRequirement:
-    coresMin: 16
+    coresMin: 32
 inputs:
   get_data_file:
     type: File
@@ -40,29 +40,29 @@ outputs:
   X:
     type: File
     outputBinding:
-      glob: "*X.npz"
+      glob: "*harvested_data/blood_type_A_chi2_no_augmentation_X.npz"
   y:
     type: File
     outputBinding:
-      glob: "*y.npy"
+      glob: "*harvested_data/blood_type_A_chi2_no_augmentation_y.npy"
   pathdataoh:
     type: File
     outputBinding:
-      glob: "*pathdataoh.npy"
+      glob: "*harvested_data/pathdataoh.npy"
   oldpath:
     type: File
     outputBinding:
-      glob: "*oldpath.npy"
+      glob: "*harvested_data/oldpath.npy"
   varvals:
     type: File
     outputBinding:
-      glob: "*varvals.npy"
+      glob: "*harvested_data/varvals.npy"
 
-arguments:
-  - $(inputs.get_data_file)
-  - $(inputs.dbfile)
-  - $(inputs.allfile.basename)
-  - $(inputs.infofile.basename)
-  - $(inputs.namefile.basename)
-  - $(inputs.choice)
-  - $(inputs.bloodtype)
+# arguments:
+#   - $(inputs.get_data_file)
+#   - $(inputs.dbfile)
+#   - $(inputs.allfile.path)
+#   - $(inputs.infofile.path)
+#   - $(inputs.namefile.path)
+#   - $(inputs.choice)
+#   - $(inputs.bloodtype)

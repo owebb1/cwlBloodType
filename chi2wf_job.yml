@@ -9,12 +9,15 @@ dbfile:
   path: /data-sdd/cwl_tiling/datafiles/untap.db
 allfile: 
   class: File
-  path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all.npy
+  #path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all.npy
+  path: keep:984434bc0540105967920f6295423575+11783/all.npy
 infofile: 
   class: File
-  path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all-info.npy
+  #path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all-info.npy
+  path: keep:984434bc0540105967920f6295423575+11783/all-info.npy
 namefile: 
   class: File
-  path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/names.npy
+  #path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/names.npy
+  path: keep:984434bc0540105967920f6295423575+11783/names.npy
 choice: Blood
 bloodtype: A

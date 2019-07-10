@@ -24,13 +24,13 @@ from sklearn.feature_selection import chi2
 from sklearn.preprocessing import OneHotEncoder
 
 
-untapdb = sys.argv[8]
-allfile = sys.argv[9]
-infofile = sys.argv[10]
-namesfile = sys.argv[11]
-choice = sys.argv[12]
+untapdb = sys.argv[1]
+allfile = sys.argv[2]
+infofile = sys.argv[3]
+namesfile = sys.argv[4]
+choice = sys.argv[5]
 if choice.lower() == "blood":
-    bloodtype = sys.argv[13]
+    bloodtype = sys.argv[6]
 
 # Unnecesary if cwl is run
 # untapdb = '/data-sdd/cwl_tiling/datafiles/untap.db'
