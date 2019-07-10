@@ -1,0 +1,20 @@
+get_data_file:
+  class: File
+  path: /data-sdd/owebb/l7g-ml/BloodType/chi2/cwl/get_Data.py
+svm_trial_file:
+  class: File
+  path: /data-sdd/owebb/l7g-ml/BloodType/chi2/cwl/SVM_Trial.py
+dbfile:
+  class: File
+  path: /data-sdd/cwl_tiling/datafiles/untap.db
+allfile: 
+  class: File
+  path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all.npy
+infofile: 
+  class: File
+  path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all-info.npy
+namefile: 
+  class: File
+  path: /home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/names.npy
+choice: Blood
+bloodtype: A
