@@ -1,14 +1,24 @@
+$namespaces:
+ arv: "http://arvados.org/cwl#"
+ cwltool: "http://commonwl.org/cwltool#"
+requirements:
+  DockerRequirement:
+    dockerPull: pythonml
+  ResourceRequirement:
+    coresMin: 16
+    ramMin: 10000
+hints:
+  cwltool:LoadListingRequirement: 
+    loadListing: deep_listing
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: python
-requirements:
-  DockerRequirement:
-    dockerPull: "l7g-ml/python-ml"
-  ResourceRequirement:
-    coresMin: 32
 inputs:
   get_data_file:
     type: File
+    default:
+      class: File
+      location: src/get_Data.py
     inputBinding:
       position: 1
   dbfile:
