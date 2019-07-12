@@ -15,7 +15,7 @@ inputs:
       location: src/load_file.py
     inputBinding: 
       position: 0
-  allfile:
+  all-info:
     type: File
     inputBinding:
       position: 1
