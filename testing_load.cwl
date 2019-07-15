@@ -21,6 +21,7 @@ inputs:
       position: 1
 outputs: []
 baseCommand: python
+
 # arguments:
 #   - $(inputs.load_file)
 #   - $(inputs.allfile)

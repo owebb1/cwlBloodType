@@ -1,3 +1,6 @@
+load_file:
+  class: File
+  location: src/load_file.py
 allinfo: 
   class: File
   location: keep:984434bc0540105967920f6295423575+11783/all-info.npy
