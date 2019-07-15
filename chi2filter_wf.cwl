@@ -1,11 +1,18 @@
-
-cwlVersion: v1.0
-class: Workflow
+$namespaces:
+ arv: "http://arvados.org/cwl#"
+ cwltool: "http://commonwl.org/cwltool#"
 requirements:
   DockerRequirement:
-    dockerPull: "l7g-ml/python-ml"
+    dockerPull: pythonml
   ResourceRequirement:
     coresMin: 16
+    ramMin: 100000
+hints:
+  cwltool:LoadListingRequirement: 
+    loadListing: deep_listing
+    
+cwlVersion: v1.0
+class: Workflow
 inputs:
   get_data_file:
     type: File

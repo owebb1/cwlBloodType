@@ -6,7 +6,7 @@ requirements:
     dockerPull: pythonml
   ResourceRequirement:
     coresMin: 16
-    ramMin: 10000
+    ramMin: 60000
 hints:
   cwltool:LoadListingRequirement: 
     loadListing: deep_listing
@@ -67,12 +67,3 @@ outputs:
     type: File
     outputBinding:
       glob: "*harvested_data/varvals.npy"
-
-# arguments:
-#   - $(inputs.get_data_file)
-#   - $(inputs.dbfile)
-#   - $(inputs.allfile.path)
-#   - $(inputs.infofile.path)
-#   - $(inputs.namefile.path)
-#   - $(inputs.choice)
-#   - $(inputs.bloodtype)

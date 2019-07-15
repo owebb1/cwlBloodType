@@ -3,7 +3,7 @@ requirements:
     dockerPull: pythonml
   ResourceRequirement:
     coresMin: 16
-    ramMin: 10000
+    ramMin: 60000
 cwlVersion: v1.0
 class: CommandLineTool
 # baseCommand: python
@@ -15,7 +15,7 @@ inputs:
       location: src/load_file.py
     inputBinding: 
       position: 0
-  all-info:
+  allfile:
     type: File
     inputBinding:
       position: 1

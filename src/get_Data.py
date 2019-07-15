@@ -10,7 +10,6 @@
 #                 blood_type_A_chi2_no_augmentation_pathdataoh.npy ; blood_type_A_chi2_no_augmentation_oldpath.npy ; 
 #                 blood_type_A_chi2_no_augmentation_varvals.npy
 
-import csv
 import numpy as np
 import sqlite3
 import pandas as pd
@@ -26,6 +25,9 @@ from sklearn.preprocessing import OneHotEncoder
 import hashlib
 
 
+if len(sys.argv) <= 6:
+    raise Exception("Enter File Names as commandline arguments")
+
 untapdb = sys.argv[1]
 allfile = sys.argv[2]
 infofile = sys.argv[3]
@@ -36,7 +38,7 @@ if choice.lower() == "blood":
 
 # Unnecesary if cwl is run
 # untapdb = '/data-sdd/owebb/cwl_tiling/datafiles/untap.db'
-# ALLFILE = '/home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all.npy'
+# allfile = '/home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all.npy'
 # infofile = '/home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/all-info.npy'
 # namesfile = '/home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/names.npy'
 # bloodtype = 'A'
@@ -46,7 +48,6 @@ print("==== Working On Files... =====")
 # Go get the data from the database as and create dataframe
 print("untap: ", untapdb)
 print("all: ", allfile)
-print(type(allfile))
 print("info: ", infofile)
 print("names: ", namesfile)
 conn = sqlite3.connect(untapdb)
@@ -70,15 +71,13 @@ dataBloodType['Rh'] = dataBloodType['blood_type'].str.contains('\+',na=False).as
 
 print("==== Loading Files... ====")
 Xtrain = np.load(allfile)
-print(Xtrain.shape)
-print(hashlib.md5('all.npy').hexdigest())
 
 
 Xtrain += 2 # All -2 so makes it to 0
 pathdata = np.load(infofile)
 names_file = open(namesfile, 'r') #not a "pickeled" file, so must just read it and pull data out of it
 names = []
-print("==== Made It Through Loading ====")
+
 for line in names_file:
     names.append(line[45:54][:-1])
 
@@ -154,23 +153,24 @@ print("==== One-hot Encoding Data... ====")
 data_shape = tiledata.shape[1]
 
 parts = 4
+print(data_shape)
+print(tiledata.shape)
 idx = np.linspace(0,data_shape,num=parts).astype('int')
 Xtrain2 = csr_matrix(np.empty([tiledata.shape[0], 0]))
 pidx = np.empty([0,],dtype='bool')
 
-i = 1
-for chunk in range(0,parts-1):
-    min_idx = idx[chunk]
-    max_idx = idx[chunk+1]
+for i in range(0,parts-1):
+    
+    min_idx = idx[i]
+    max_idx = idx[i+1]
     enc = OneHotEncoder(sparse=True, dtype=np.uint16)
-    # 1-hot encoding tiled data
     Xtrain = enc.fit_transform(tiledata[:,min_idx:max_idx])
     [chi2val,pval] = chi2(Xtrain, y)
+    print(pval)
     pidxchunk = pval <= 0.02
     Xchunk = Xtrain[:,pidxchunk]
     pidx=np.concatenate((pidx,pidxchunk),axis=0)
-    Xtrain2=hstack([Xtrain2,Xchunk],format='csr')
-    i += 1
+    Xtrain2= hstack([Xtrain2,Xchunk],format='csr')
 
 pathdataOH = pathdataOH[pidx]
 oldpath = oldpath[pidx]

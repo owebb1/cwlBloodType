@@ -1,0 +1,6 @@
+load_file:
+  class: File
+  location: src/load_file.py
+half_all: 
+  class: File
+  location: keep:036424ab0ccb44a55ebab18aeb66e1c9+10614/full_data.npy
