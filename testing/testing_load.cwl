@@ -1,12 +1,11 @@
 requirements:
   DockerRequirement:
-    dockerPull: pythonml
+    dockerPull: pythonmlnew
   ResourceRequirement:
     coresMin: 16
     ramMin: 60000
 cwlVersion: v1.0
 class: CommandLineTool
-# baseCommand: python
 inputs:
   load_file:
     type: File
@@ -21,7 +20,3 @@ inputs:
       position: 1
 outputs: []
 baseCommand: python
-
-# arguments:
-#   - $(inputs.load_file)
-#   - $(inputs.allfile)

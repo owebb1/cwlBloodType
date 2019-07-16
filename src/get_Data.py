@@ -19,6 +19,7 @@ import sys
 import scipy.sparse
 from scipy.sparse import csr_matrix
 from scipy.sparse import hstack
+from scipy.sparse import save_npz
 
 from sklearn.feature_selection import chi2
 from sklearn.preprocessing import OneHotEncoder
@@ -33,8 +34,8 @@ allfile = sys.argv[2]
 infofile = sys.argv[3]
 namesfile = sys.argv[4]
 choice = sys.argv[5]
-if choice.lower() == "blood":
-    bloodtype = sys.argv[6]
+#if choice.lower() == "blood":
+bloodtype = sys.argv[6]
 
 # Unnecesary if cwl is run
 # untapdb = '/data-sdd/owebb/cwl_tiling/datafiles/untap.db'
@@ -43,7 +44,7 @@ if choice.lower() == "blood":
 # namesfile = '/home/owebb/keep/by_id/su92l-j7d0g-4mnq9juobvg0qwy/CopyOfTileDataNumpy/names.npy'
 # bloodtype = 'A'
 
-print("==== Working On Files... =====")
+print("==== Command Line Arguments Received... =====")
 
 # Go get the data from the database as and create dataframe
 print("untap: ", untapdb)
@@ -116,6 +117,8 @@ Xtrain = Xtrain[:, idxKeep]
 print("==== Extracting Blood Type %s... ====" %bloodtype)
 y = df2[bloodtype].values #for blood type A to start
 
+print("Y size: ", y.size)
+
 # save information about deleted missing/spanning data
 varvals = np.full(50 * Xtrain.shape[1], np.nan)
 nx = 0
@@ -145,6 +148,7 @@ randomize_idx = np.arange(len(y))
 np.random.shuffle(randomize_idx)
 tiledata = Xtrain[randomize_idx,:]
 y = y[randomize_idx]
+print("random y: ", y)
 
 nnz = np.count_nonzero(tiledata,axis=0)
 
@@ -153,24 +157,27 @@ print("==== One-hot Encoding Data... ====")
 data_shape = tiledata.shape[1]
 
 parts = 4
-print(data_shape)
-print(tiledata.shape)
 idx = np.linspace(0,data_shape,num=parts).astype('int')
 Xtrain2 = csr_matrix(np.empty([tiledata.shape[0], 0]))
 pidx = np.empty([0,],dtype='bool')
 
 for i in range(0,parts-1):
-    
     min_idx = idx[i]
     max_idx = idx[i+1]
     enc = OneHotEncoder(sparse=True, dtype=np.uint16)
     Xtrain = enc.fit_transform(tiledata[:,min_idx:max_idx])
     [chi2val,pval] = chi2(Xtrain, y)
-    print(pval)
+    print(pval.size)
+    print(Xtrain.size)
     pidxchunk = pval <= 0.02
     Xchunk = Xtrain[:,pidxchunk]
+    print(Xchunk)
+    print(Xtrain2)
     pidx=np.concatenate((pidx,pidxchunk),axis=0)
-    Xtrain2= hstack([Xtrain2,Xchunk],format='csr')
+    if i == 0:
+        Xtrain2 = Xchunk
+    else:
+        Xtrain2= hstack([Xtrain2,Xchunk],format='csr')
 
 pathdataOH = pathdataOH[pidx]
 oldpath = oldpath[pidx]
@@ -191,15 +198,15 @@ print(pathdataOH.shape)
 print(oldpath.shape)
 print(varvals.shape)
 
-filenameheader = "../harvested_data/"
+filenameheader = "harvested_data/"
 
 X_filename = "blood_type_A_chi2_no_augmentation_X.npz"
 y_filename = "blood_type_A_chi2_no_augmentation_y.npy"
-np.save(filenameheader+ y_filename, y)
-np.save(filenameheader+'pathdataOH.npy', pathdataOH)
-np.save(filenameheader+'oldpath.npy', oldpath)
-np.save(filenameheader+'varvals.npy', varvals)
-scipy.sparse.save_npz(filenameheader+ X_filename, Xtrain)
+np.save(y_filename, y)
+np.save('pathdataOH.npy', pathdataOH)
+np.save('oldpath.npy', oldpath)
+np.save('varvals.npy', varvals)
+scipy.sparse.save_npz(X_filename, Xtrain)
 
 
 

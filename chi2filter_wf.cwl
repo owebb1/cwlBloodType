@@ -3,7 +3,7 @@ $namespaces:
  cwltool: "http://commonwl.org/cwltool#"
 requirements:
   DockerRequirement:
-    dockerPull: pythonml
+    dockerPull: pythonmlnew
   ResourceRequirement:
     coresMin: 16
     ramMin: 100000
@@ -53,7 +53,10 @@ inputs:
     inputBinding:
       position: 8
 
-outputs: []
+outputs: 
+  text_file: 
+    type: File
+    outputSource: svmtrial/text_file
 steps:
   gettingdata:
     in:
@@ -64,7 +67,27 @@ steps:
       namefile: namefile
       choice: choice
       bloodtype: bloodtype
-    out: [X,y,pathdataoh, oldpath, varvals]
+    out: [X, y, pathdataoh, oldpath, varvals]
+      # X:
+      #   type: File
+      #   outputBinding:
+      #     glob: blood_type_A_chi2_no_augmentation_X.npz
+      # y:
+      #   type: File
+      #   outputBinding:
+      #     glob: blood_type_A_chi2_no_augmentation_y.npy
+      # pathdataoh:
+      #   type: File
+      #   outputBinding:
+      #     glob: pathdataOH.npy
+      # oldpath:
+      #   type: File
+      #   outputBinding:
+      #     glob: oldpath.npy
+      # varvals:
+      #   type: File
+      #   outputBinding:
+      #     glob: varvals.npy
     run: getting_data.cwl
 
   svmtrial:
@@ -75,6 +98,10 @@ steps:
       pathdataoh: gettingdata/pathdataoh
       oldpath: gettingdata/oldpath
       varvals: gettingdata/varvals
-    out: []
+    out: [text_file]
+      # text_file:
+      #   type: File
+      #   outputBinding:
+      #     glob: "*.txt"
     run: svm.cwl
       

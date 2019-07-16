@@ -21,11 +21,11 @@ import sys
 
 print("==== NOW LOADING FILES... ====")
 
-x_file = sys.argv[3]
-y_file = sys.argv[4]
-oldpath_file = sys.argv[5]
-pathdata_file = sys.argv[6]
-varvals_file = sys.argv[7]
+x_file = sys.argv[1]
+y_file = sys.argv[2]
+oldpath_file = sys.argv[3]
+pathdata_file = sys.argv[4]
+varvals_file = sys.argv[5]
 
 X= scipy.sparse.load_npz(x_file)
 y = np.load(y_file)
@@ -34,7 +34,7 @@ oldpath = np.load(oldpath_file)
 pathdataOH = np.load(pathdata_file)
 varvals = np.load(varvals_file)
 
-fil = open("trials/SVM/blood_type_A_chi2_no_augmentation.txt", "w+")
+fil = open("blood_type_A_chi2_no_augmentation.txt", "w+")
 fil.write("Details: LinearSVC with L1 Regularization\n")
 fil.write("==========================================================\n")
 
@@ -54,11 +54,11 @@ for lam in lam_range:
     one_lam_score.append(round(std,3))
     scores.append(one_lam_score)
 
-# Used to then graph and look at best region of lambdavalues
-with open('data_SVC_lams.csv', 'w') as csvFile:
-        writer = csv.writer(csvFile)
-        writer.writerows(scores)
-csvFile.close()
+# Use to graph and look at best region of lambdavalues if needed
+# with open('data_SVC_lams.csv', 'w') as csvFile:
+#         writer = csv.writer(csvFile)
+#         writer.writerows(scores)
+# csvFile.close()
 
 #find the max lambda value
 max_val = 0
@@ -70,18 +70,19 @@ for score in scores:
 
 best_lam = max_lam 
 best_acc = max_val
-
+fil.write("Best Lambda: " + str(best_lam) +"\n")
+        
 print("==== NOW FITTING TO BEST COEFFICEINT... ====")
 # Fit the model with the best lambda
 svc = LinearSVC(penalty='l1', class_weight='balanced', C=best_lam, dual=False)
 svc.fit(X, y)
 
 maxCoef = np.absolute(svc.coef_).max()
-print("Maximum Coefficent (%4.3f):" % maxCoef) 
+fil.write("Maximum Coefficent: " + str(maxCoef) + "\n")
 
 max_idx = np.argmax(np.absolute(svc.coef_))
 nonzero_num = np.nonzero(svc.coef_)[1].shape
-print("Number of Nonzeros Coefficents (%d)" % nonzero_num)
+fil.write("Number of Nonzero Coefficents: "+str(nonzero_num)+ "\n")
 
 nonzero_idx_uk = np.nonzero(svc.coef_)[1]               #Gets indicies of nonzero coefficents
 coefs = svc.coef_[0,:]                                  #gets the first part of coefficents
@@ -100,7 +101,8 @@ tile_step = np.trunc((coefPaths - tile_path*16**5)/2)
 tile_phase = np.trunc((coefPaths- tile_path*16**5 - 2*tile_step))
 tile_loc = np.column_stack((tile_path, tile_step))
 
-print("Tile Location: ", tile_loc)
-print("Nonzero Coefs: ", nonzero_coefs[sorted_idx])
-print("Old Path: ", oldpath[nonzero_idx])
-print("Varvals: ", varvals[nonzero_idx])
+fil.write("Tile Location: " + str(tile_loc)+"\n")
+#fil.write("Nonzero Coefs: ", nonzero_coefs[sorted_idx])
+#fil.write("Old Path: ", oldpath[nonzero_idx])
+#fil.write("Varvals: ", varvals[nonzero_idx])
+fil.close()

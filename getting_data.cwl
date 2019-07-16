@@ -3,10 +3,10 @@ $namespaces:
  cwltool: "http://commonwl.org/cwltool#"
 requirements:
   DockerRequirement:
-    dockerPull: pythonml
+    dockerPull: pythonmlnew
   ResourceRequirement:
     coresMin: 16
-    ramMin: 60000
+    ramMin: 100000
 hints:
   cwltool:LoadListingRequirement: 
     loadListing: deep_listing
@@ -20,50 +20,50 @@ inputs:
       class: File
       location: src/get_Data.py
     inputBinding:
-      position: 1
+      position: 0
   dbfile:
     type: File 
     inputBinding:
-      position: 2
+      position: 1
   allfile:
     type: File
     inputBinding:
-      position: 3
+      position: 2
   infofile:
     type: File
     inputBinding:
-      position: 4
+      position: 3
   namefile:
     type: File
     inputBinding:
-      position: 5
+      position: 4
   choice:
     type: string
     inputBinding:
-      position: 6
+      position: 5
   bloodtype:
     type: string
     inputBinding:
-      position: 7
+      position: 6
     
 outputs:
   X:
     type: File
     outputBinding:
-      glob: "*harvested_data/blood_type_A_chi2_no_augmentation_X.npz"
+      glob: blood_type_A_chi2_no_augmentation_X.npz
   y:
     type: File
     outputBinding:
-      glob: "*harvested_data/blood_type_A_chi2_no_augmentation_y.npy"
+      glob: blood_type_A_chi2_no_augmentation_y.npy
   pathdataoh:
     type: File
     outputBinding:
-      glob: "*harvested_data/pathdataoh.npy"
+      glob: pathdataOH.npy
   oldpath:
     type: File
     outputBinding:
-      glob: "*harvested_data/oldpath.npy"
+      glob: oldpath.npy
   varvals:
     type: File
     outputBinding:
-      glob: "*harvested_data/varvals.npy"
+      glob: varvals.npy
