@@ -54,7 +54,7 @@ for lam in lam_range:
     one_lam_score.append(round(std,3))
     scores.append(one_lam_score)
 
-# Use to graph and look at best region of lambdavalues if needed
+# Use csv to then graph and look at best region of lambdavalues if needed
 # with open('data_SVC_lams.csv', 'w') as csvFile:
 #         writer = csv.writer(csvFile)
 #         writer.writerows(scores)
@@ -70,8 +70,9 @@ for score in scores:
 
 best_lam = max_lam 
 best_acc = max_val
+
 fil.write("Best Lambda: " + str(best_lam) +"\n")
-        
+
 print("==== NOW FITTING TO BEST COEFFICEINT... ====")
 # Fit the model with the best lambda
 svc = LinearSVC(penalty='l1', class_weight='balanced', C=best_lam, dual=False)
@@ -95,11 +96,13 @@ sorted_idx = np.flipud(sorted_idx)                      #flips all of the rows
 nonzero_idx = nonzero_idx_uk[sorted_idx]                # gets all of the nonzero index's from the sorted one 
 coefPaths = pathdataOH[nonzero_idx]                     # gets path data from the onehot for the indicies of the nonzero 
 
-#From equation Sarah has: 
+#From equation Sarah has, basically reversing encoding: 
 tile_path = np.trunc(coefPaths/(16**5))
 tile_step = np.trunc((coefPaths - tile_path*16**5)/2)
 tile_phase = np.trunc((coefPaths- tile_path*16**5 - 2*tile_step))
 tile_loc = np.column_stack((tile_path, tile_step))
+
+#TODO: what is purpose of this file and what should I write to the file
 
 fil.write("Tile Location: " + str(tile_loc)+"\n")
 #fil.write("Nonzero Coefs: ", nonzero_coefs[sorted_idx])
