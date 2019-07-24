@@ -41,6 +41,9 @@ fil.write("==========================================================\n")
 print("==== NOW TRAINING MODEL... ====")
 lam_range = np.logspace(-2, 1, 100).tolist()
 
+
+#TODO: This is where we can include the glmnet library to imporve out model
+
 scores = []
 for lam in lam_range:
     one_lam_score = []
