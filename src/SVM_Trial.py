@@ -16,6 +16,7 @@ from sklearn.model_selection import cross_val_score, cross_val_predict, train_te
 from sklearn.svm import LinearSVC
 from sklearn.metrics import confusion_matrix, accuracy_score
 from collections import defaultdict
+import matplotlib.pyplot as plt
 import csv
 import sys
 
@@ -39,42 +40,37 @@ fil.write("Details: LinearSVC with L1 Regularization\n")
 fil.write("==========================================================\n")
 
 print("==== NOW TRAINING MODEL... ====")
-lam_range = np.logspace(-2, 1, 100).tolist()
+lam_range = np.logspace(-4, -0.001, 100).tolist()
 
 
 #TODO: This is where we can include the glmnet library to imporve out model
 
-scores = []
-for lam in lam_range:
-    one_lam_score = []
-    svc_test = LinearSVC(penalty='l1', C=lam, dual=False) #SVC WITH L1 REGULARIZATION
-    svc_test.fit(X,y)
-    cross = cross_val_score(svc_test, X, y, cv=10) #Cross validation 10 fold
-    mean = cross.mean()
-    std = cross.std()
-    one_lam_score.append(round(lam,3))
-    one_lam_score.append(round(mean,3))
-    one_lam_score.append(round(std,3))
-    scores.append(one_lam_score)
+# scores = []
+# for lam in lam_range:
+#     one_lam_score = []
+#     svc_test = LinearSVC(penalty='l1', C=lam, dual=False) #SVC WITH L1 REGULARIZATION
+#     svc_test.fit(X,y)
+#     cross = cross_val_score(svc_test, X, y, cv=10) #Cross validation 10 fold
+#     mean = cross.mean()
+#     std = cross.std()
+#     one_lam_score.append(round(lam,3))
+#     one_lam_score.append(round(mean,3))
+#     one_lam_score.append(round(std,3))
+#     scores.append(one_lam_score)
 
-# Use csv to then graph and look at best region of lambdavalues if needed
-# with open('data_SVC_lams.csv', 'w') as csvFile:
-#         writer = csv.writer(csvFile)
-#         writer.writerows(scores)
-# csvFile.close()
-
-#find the max lambda value
-max_val = 0
-max_lam = 0
-for score in scores:
-    if score[1] > max_val:
-        max_val = score[1]
-        max_lam = score[0]
+# #find the max lambda value
+# max_val = 0
+# max_lam = 0
+# for score in scores:
+#     if score[1] > max_val:
+#         max_val = score[1]
+#         max_lam = score[0]
 
 best_lam = max_lam 
 best_acc = max_val
 
 fil.write("Best Lambda: " + str(best_lam) +"\n")
+print("Best Lambda: " + str(best_lam))
 
 print("==== NOW FITTING TO BEST COEFFICEINT... ====")
 # Fit the model with the best lambda
@@ -105,7 +101,7 @@ tile_step = np.trunc((coefPaths - tile_path*16**5)/2)
 tile_phase = np.trunc((coefPaths- tile_path*16**5 - 2*tile_step))
 tile_loc = np.column_stack((tile_path, tile_step))
 
-#TODO: what is purpose of this file and what should I write to the file
+#TODO: what is purpose of this file and what should I write to the file -- Do we need it as an output
 
 fil.write("Tile Location: " + str(tile_loc)+"\n")
 #fil.write("Nonzero Coefs: ", nonzero_coefs[sorted_idx])

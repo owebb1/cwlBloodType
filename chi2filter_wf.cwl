@@ -23,35 +23,39 @@ inputs:
     type: File
     inputBinding:
       position: 2
+  glmnet_file:
+    type: File
+    inputBinding:
+      position: 3
   dbfile:
     type: File 
     inputBinding:
-      position: 3
+      position: 4
 
   allfile:
     type: File
     inputBinding:
-      position: 4
+      position: 5
   
   infofile:
     type: File
     inputBinding:
-      position: 5
+      position: 6
 
   namefile:
     type: File
     inputBinding:
-      position: 6
+      position: 7
   
   choice:
     type: string
     inputBinding:
-      position: 7
+      position: 8
 
   bloodtype:
     type: string
     inputBinding:
-      position: 8
+      position: 9
 
 outputs: 
   text_file: 
@@ -68,27 +72,15 @@ steps:
       choice: choice
       bloodtype: bloodtype
     out: [X, y, pathdataoh, oldpath, varvals]
-      # X:
-      #   type: File
-      #   outputBinding:
-      #     glob: blood_type_A_chi2_no_augmentation_X.npz
-      # y:
-      #   type: File
-      #   outputBinding:
-      #     glob: blood_type_A_chi2_no_augmentation_y.npy
-      # pathdataoh:
-      #   type: File
-      #   outputBinding:
-      #     glob: pathdataOH.npy
-      # oldpath:
-      #   type: File
-      #   outputBinding:
-      #     glob: oldpath.npy
-      # varvals:
-      #   type: File
-      #   outputBinding:
-      #     glob: varvals.npy
     run: getting_data.cwl
+
+  glmnet:
+    in:
+      glmnet_file: glmnet_file
+      X: gettingdata/X
+      y: gettingdata/y
+    out:[best_lam]
+    run: glmnet.cwl
 
   svmtrial:
     in:
@@ -98,10 +90,7 @@ steps:
       pathdataoh: gettingdata/pathdataoh
       oldpath: gettingdata/oldpath
       varvals: gettingdata/varvals
+      best_lam: glmnet/best_lam
     out: [text_file]
-      # text_file:
-      #   type: File
-      #   outputBinding:
-      #     glob: "*.txt"
     run: svm.cwl
       

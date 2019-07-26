@@ -199,7 +199,6 @@ print(oldpath.shape)
 print(varvals.shape)
 
 filenameheader = "harvested_data/"
-
 X_filename = "blood_type_A_chi2_no_augmentation_X.npz"
 y_filename = "blood_type_A_chi2_no_augmentation_y.npy"
 np.save(y_filename, y)

@@ -4,6 +4,9 @@ get_data_file:
 svm_trial_file:
   class: File
   path: /data-sdd/owebb/l7g-ml/BloodType/chi2/cwlBloodType/src/SVM_Trial.py
+glmnet_file:
+  class: File
+  path: /data-sdd/owebb/l7g-ml/BloodType/chi2/cwlBloodType/src/glmnet.r
 dbfile:
   class: File
   path: /data-sdd/cwl_tiling/datafiles/untap.db
