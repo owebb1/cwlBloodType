@@ -1,6 +1,6 @@
-svm_trial_file:
+glmnet_file:
   class: File
-  path: /data-sdd/owebb/l7g-ml/BloodType/chi2/cwlBloodType/src/SVM_Trial.py
+  path: /data-sdd/owebb/l7g-ml/BloodType/chi2/cwlBloodType/src/glmnet.r
 X:
   class: File
   path: keep:7828db243ec1f9c1a36e9096c1d04663+292/blood_type_A_chi2_no_augmentation_X.npz

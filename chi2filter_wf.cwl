@@ -3,7 +3,7 @@ $namespaces:
  cwltool: "http://commonwl.org/cwltool#"
 requirements:
   DockerRequirement:
-    dockerPull: pythonmlnew
+    dockerPull: l7g-ml/pythonr 
   ResourceRequirement:
     coresMin: 16
     ramMin: 32000
@@ -61,6 +61,10 @@ outputs:
   text_file: 
     type: File
     outputSource: svmtrial/text_file
+  graph:
+    type: File
+    outputSource: glmnet/graph
+    
 steps:
   gettingdata:
     in:
@@ -79,7 +83,7 @@ steps:
       glmnet_file: glmnet_file
       X: gettingdata/X
       y: gettingdata/y
-    out:[best_lam]
+    out: [best_lam,graph]
     run: glmnet.cwl
 
   svmtrial:

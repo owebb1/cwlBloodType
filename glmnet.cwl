@@ -3,7 +3,7 @@ $namespaces:
  cwltool: "http://commonwl.org/cwltool#"
 requirements:
   DockerRequirement:
-    dockerPull: pythonmlnew
+    dockerPull: l7g-ml/pythonrpackages 
   ResourceRequirement:
     coresMin: 16
     ramMin: 32000
@@ -28,6 +28,12 @@ inputs:
 
 outputs: 
   best_lam:
-    type: string
+    type: File
+    outputBinding:
+      glob: "lammin.txt"
+  graph:
+    type: File
+    outputBinding:
+      glob: "*.png"
 
 baseCommand: Rscript

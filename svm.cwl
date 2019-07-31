@@ -3,7 +3,7 @@ $namespaces:
  cwltool: "http://commonwl.org/cwltool#"
 requirements:
   DockerRequirement:
-    dockerPull: pythonmlnew
+    dockerPull: l7g-ml/pythonr 
   ResourceRequirement:
     coresMin: 16
     ramMin: 32000
@@ -37,6 +37,10 @@ inputs:
     type: File
     inputBinding:
       position: 5
+  best_lam:
+    type: File
+    inputBinding:
+      position: 6
 
 outputs: 
   text_file:
